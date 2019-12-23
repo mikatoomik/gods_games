@@ -26,3 +26,12 @@
    </li>
   <% end %>
 </ul>
+<h3>Adversaires</h3>
+<ul>
+  <% @advs.each do |adv| %>
+   <li>
+      <%= adv.name %>
+   </li>
+  <% end %>
+</ul>
+<h2>gagnant: <%= @winner.name %></h2>
