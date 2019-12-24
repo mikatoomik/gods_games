@@ -1,0 +1,12 @@
+<h1>
+  <%= @place.name %>
+</h1>
+<h2>liens vers</h2>
+<ul>
+  <% @place.links.each do |link| %>
+    <li>
+      <%= link_to link, link %>
+    </li>
+  <% end %>
+
+</ul>

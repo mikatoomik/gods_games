@@ -11,7 +11,7 @@ class CharactersController < ApplicationController
   def create
     @character = Character.new(params_characters)
     @character.user = current_user
-    @character.place = Place.last
+    @character.place = "zone"
     if @character.save
       redirect_to root_path
     else
