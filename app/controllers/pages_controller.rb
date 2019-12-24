@@ -5,8 +5,8 @@ class PagesController < ApplicationController
     @characters = Character.all
     @gods = God.all
     @places = Place.all
-    place = Place.last
-    combat_init(place)
+    @place = Place.last
+    combat_init(@place)
     combat_result(@advs)
   end
 

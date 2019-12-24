@@ -1,3 +1,8 @@
+<% if user_signed_in? %>
+  <%= link_to "perso", character_path(current_user) %>
+  <%= link_to "lieu", place_path(@place) %>
+<% else %>
+
 <h1>Page accueil</h1>
 
 
@@ -26,4 +31,6 @@
    </li>
   <% end %>
 </ul>
+
+<% end %>
 
