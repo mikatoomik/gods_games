@@ -1,0 +1,5 @@
+<%= simple_form_for(@character) do |f| %>
+      <%= f.input :name %>
+      <%= f.association :god %>
+      <%= f.submit "create !" %>
+      <% end %>

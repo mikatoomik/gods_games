@@ -1,2 +1,29 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>Page accueil</h1>
+
+
+<h2>Listes de tout</h2>
+<h3>Lieux</h3>
+<ul>
+  <% @places.each do |place| %>
+   <li>
+      <%= link_to place.name, place %>
+   </li>
+  <% end %>
+</ul>
+<h3>Dieux</h3>
+<ul>
+  <% @gods.each do |god| %>
+   <li>
+      <%= god.name %>
+   </li>
+  <% end %>
+</ul>
+<h3>Persos</h3>
+<ul>
+  <% @characters.each do |character| %>
+   <li>
+      <%= character.name %>(<%= character.user.email %>)
+   </li>
+  <% end %>
+</ul>
+
