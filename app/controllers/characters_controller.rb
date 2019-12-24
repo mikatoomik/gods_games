@@ -2,6 +2,10 @@ class CharactersController < ApplicationController
 
   def show
     @character = Character.where("user_id = ?", current_user).last
+    if @character.nil?
+      @character = Character.new
+      render :new
+    end
   end
 
   def new
@@ -11,11 +15,21 @@ class CharactersController < ApplicationController
   def create
     @character = Character.new(params_characters)
     @character.user = current_user
-    @character.place = "zone"
+    @character.place = Place.find_by name: "zone"
     if @character.save
       redirect_to root_path
     else
       render :new
+    end
+  end
+
+  def update
+    @character = Character.where("user_id = ?", current_user).last
+    @character.place = Place.find_by(name: params[:commit])
+    if @character.save
+      redirect_to character_path(@character)
+    else
+      redirect_to root_path
     end
   end
 
