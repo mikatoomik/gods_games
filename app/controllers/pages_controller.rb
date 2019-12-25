@@ -8,6 +8,10 @@ class PagesController < ApplicationController
     @place = Place.last
     combat_init(@place)
     combat_result(@advs)
+    @character = Character.where("user_id = ?", current_user).last
+    if @character.nil?
+      @character = Character.new
+    end
   end
 
   def combat_init(place)

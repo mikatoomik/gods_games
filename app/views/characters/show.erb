@@ -1,7 +1,34 @@
 Joueur: <%= @character.user.email %><br>
 Nom: <%= @character.name %><br>
 Dieu: <%= @character.god.name %><br>
-Lieu: <%= @character.place.name %><br>
+Lieu:
+
+<h1>
+  <%= @character.place.name %>
+</h1>
+
+<h2>Présences</h2>
+<h3>Monstres</h3>
+<ul>
+  <% monsters = @character.place.creatures.select {|creature| creature.class == Monster } %>
+    <% monsters.each do |monster| %>
+    <li>
+      <%= monster.name %>
+    </li>
+  <% end %>
+</ul>
+<h3>Joueurs</h3>
+<ul>
+  <% characters = @character.place.creatures.select {|creature| creature.class == Character } %>
+    <% characters.each do |character| %>
+    <% unless character == @character %>
+      <li>
+        <%= character.name %>
+      </li>
+    <% end %>
+  <% end %>
+
+</ul>
 
 aller vers :
 <ul>

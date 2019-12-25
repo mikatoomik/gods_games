@@ -1,6 +1,18 @@
 <h1>
   <%= @place.name %>
 </h1>
+
+<h2>Présences</h2>
+<ul>
+  <% @place.creatures.each do |creature| %>
+    <li>
+      <%= creature.name %>
+    </li>
+  <% end %>
+
+</ul>
+
+
 <h2>liens vers</h2>
 <ul>
   <% @place.links.each do |link| %>

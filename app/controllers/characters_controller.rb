@@ -1,11 +1,7 @@
 class CharactersController < ApplicationController
 
   def show
-    @character = Character.where("user_id = ?", current_user).last
-    if @character.nil?
-      @character = Character.new
-      render :new
-    end
+    @character = Character.find(params[:id])
   end
 
   def new

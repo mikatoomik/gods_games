@@ -9,6 +9,7 @@ class CreateCreatures < ActiveRecord::Migration[5.2]
       t.integer :stamina
       t.integer :att
       t.integer :def
+      t.boolean :living
 
       t.timestamps
     end

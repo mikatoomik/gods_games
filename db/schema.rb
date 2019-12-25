@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_12_25_102651) do
     t.integer "stamina"
     t.integer "att"
     t.integer "def"
+    t.boolean "living"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["god_id"], name: "index_creatures_on_god_id"
