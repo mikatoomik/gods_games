@@ -10,21 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_24_071405) do
+ActiveRecord::Schema.define(version: 2019_12_25_102651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "characters", force: :cascade do |t|
+  create_table "creatures", force: :cascade do |t|
+    t.string "type"
     t.string "name"
     t.bigint "user_id"
     t.bigint "god_id"
     t.bigint "place_id"
+    t.integer "stamina"
+    t.integer "att"
+    t.integer "def"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["god_id"], name: "index_characters_on_god_id"
-    t.index ["place_id"], name: "index_characters_on_place_id"
-    t.index ["user_id"], name: "index_characters_on_user_id"
+    t.index ["god_id"], name: "index_creatures_on_god_id"
+    t.index ["place_id"], name: "index_creatures_on_place_id"
+    t.index ["user_id"], name: "index_creatures_on_user_id"
   end
 
   create_table "gods", force: :cascade do |t|
@@ -35,9 +39,9 @@ ActiveRecord::Schema.define(version: 2019_12_24_071405) do
 
   create_table "places", force: :cascade do |t|
     t.string "name"
+    t.string "links", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "links", default: [], array: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,7 +56,7 @@ ActiveRecord::Schema.define(version: 2019_12_24_071405) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "characters", "gods"
-  add_foreign_key "characters", "places"
-  add_foreign_key "characters", "users"
+  add_foreign_key "creatures", "gods"
+  add_foreign_key "creatures", "places"
+  add_foreign_key "creatures", "users"
 end

@@ -1,3 +1,3 @@
 class God < ApplicationRecord
-  has_many :characters
+  has_many :creatures
 end
