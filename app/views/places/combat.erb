@@ -1,0 +1,12 @@
+
+<%= @degats %><br>
+<%= @result %><br>
+<%= @blessures %><br>
+
+<% if @place.monsters.empty? %>
+  <%= link_to "retour", character_path(@character) %>
+<% else %>
+  <%= link_to "continuer le combat", place_engage_path(@place) %>
+<% end %>
+
+
