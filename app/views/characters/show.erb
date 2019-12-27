@@ -1,47 +1,51 @@
 Joueur: <%= @character.user.email %><br>
 Nom: <%= @character.name %><br>
 Dieu: <%= @character.god.name %><br>
+Attaque: <%= @character.att %><br>
+Defense: <%= @character.def %><br>
+Points de vie: <%= @character.stamina %><br>
 Lieu:
-
 <h1>
   <%= @character.place.name %>
 </h1>
-
-<h2>Présences</h2>
-<h3>Monstres</h3>
-<ul>
-  <% monsters = @character.place.creatures.select {|creature| creature.class == Monster } %>
-    <% monsters.each do |monster| %>
-    <li>
-      <%= monster.name %>
-    </li>
+<% if @character.place.creatures.count > 1 %>
+  <h2>Présences</h2>
+  <% unless @character.place.monsters.empty? %>
+    <h3>Monstres</h3>
+    <ul>
+      <% monsters = @character.place.creatures.select {|creature| creature.class == Monster } %>
+      <% monsters.each do |monster| %>
+        <li>
+          <%= monster.name %>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
-<h3>Joueurs</h3>
-<ul>
-  <% characters = @character.place.creatures.select {|creature| creature.class == Character } %>
-    <% characters.each do |character| %>
-    <% unless character == @character %>
-      <li>
-        <%= character.name %>
-      </li>
-    <% end %>
+  <% if @character.place.characters.count > 1 %>
+    <h3>Joueurs</h3>
+    <ul>
+      <% characters = @character.place.creatures.select {|creature| creature.class == Character } %>
+      <% characters.each do |character| %>
+        <% unless character == @character %>
+          <li>
+            <%= character.name %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
   <% end %>
-
-</ul>
-
-aller vers :
-<ul>
-  <% @character.place.links.each do |link| %>
+<% end %>
+<% if @character.place.monsters.empty? %>
+  aller vers :
+  <ul>
+    <% @character.place.links.each do |link| %>
     <li>
       <%= form_tag character_path(@character.user.id), method: :patch do %>
-
-        <%= submit_tag link %>
+      <%= submit_tag link %>
       <% end %>
     </li>
-  <% end %>
-
-</ul>
-
-agir :
-<%= link_to "attaquer", place_combat_path(@character.place) %>
+    <% end %>
+  </ul>
+<% else %>
+  <%= link_to "attaquer", place_engage_path(@character.place) %>
+<% end %>

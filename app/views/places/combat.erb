@@ -1,36 +1,12 @@
-<h2>Vous engagez le combat</h2>
 
-adversaires
+<%= @degats %><br>
+<%= @result %><br>
+<%= @blessures %><br>
 
-<ol>
-<% @monsters.each do |monster| %>
-  <li>
-    <%= monster.name %>
-    <%= monster.stamina %>
-  </li>
-<% end %>
-</ol>
-
-<% if @characters.empty? %>
-  Vous êtes tout seul sur ce coup !
+<% if @place.monsters.empty? %>
+  <%= link_to "retour", character_path(@character) %>
 <% else %>
-  soutien possible
-
-  <ol>
-  <% @characters.each do |character| %>
-    <li>
-      <%= character.name %>
-    </li>
-  <% end %>
-  </ol>
-<% end %>
-
-
-<h5>prochaine action ?</h5>
-
-<%= simple_form_for @place, :url => place_engage_path, :method => :get do |f| %>
-  <%= f.association :monsters, as: :radio_buttons %>
-  <%= f.button :submit, "attaquez" %>
+  <%= link_to "continuer le combat", place_engage_path(@place) %>
 <% end %>
 
 
