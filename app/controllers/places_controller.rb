@@ -1,4 +1,5 @@
 class PlacesController < ApplicationController
+  before_action :set_character, only: [:engage, :combat, :fuir]
 
   def show
     if params[:id].to_i == 0
@@ -18,7 +19,6 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:place_id])
     @monsters = Monster.where("place_id = ?", params[:place_id])
     monster = Monster.find(params[:place][:monster_ids])
-    @character = Character.where("user_id = ?", current_user.id).first
     character_att(@character, monster)
     combat_result(@character, monster)
     if @result == "Il est mort"
@@ -48,6 +48,8 @@ class PlacesController < ApplicationController
 
   def combat_result(character, monster)
     if character.stamina <= 0
+      character.stamina = 100
+      character.save
       redirect_to root_path
     elsif
       monster.stamina <= 0
@@ -56,6 +58,19 @@ class PlacesController < ApplicationController
     else
       @result = "Il lui reste #{monster.stamina} points de vie"
     end
+  end
+
+  def fuir
+      @character.place = Place.find_by(name: @character.place.links.sample)
+      @character.stamina = @character.stamina / 2
+      @character.save
+      redirect_to character_path(@character)
+  end
+
+  private
+
+  def set_character
+    @character = Character.where("user_id = ?", current_user.id).last
   end
 end
 

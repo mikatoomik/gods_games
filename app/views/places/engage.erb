@@ -29,9 +29,10 @@ adversaires
 <h5>prochaine action ?</h5>
 
 <%= simple_form_for @place, :url => place_combat_path, :method => :get do |f| %>
-  <%= f.association :monsters, as: :radio_buttons %>
+  <%= f.association :monsters, :collection => @monsters, as: :radio_buttons %>
   <%= f.button :submit, "attaquez" %>
 <% end %>
 
+<%= link_to "fuir", character_path(@character) %>
 
 

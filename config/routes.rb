@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :places do
     get 'combat', to: 'places#combat'
     get 'engage', to: 'places#engage'
+    get 'fuir', to: 'places#fuir'
   end
 
     # Sidekiq Web UI, only for admins.
