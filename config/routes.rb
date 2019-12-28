@@ -7,4 +7,11 @@ Rails.application.routes.draw do
     get 'combat', to: 'places#combat'
     get 'engage', to: 'places#engage'
   end
+
+    # Sidekiq Web UI, only for admins.
+  require "sidekiq/web"
+  authenticate :user, lambda { |u| u.admin } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
 end
