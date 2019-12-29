@@ -1,19 +1,27 @@
 <h2>Vous engagez le combat</h2>
 
-adversaires
 
-<ol>
-<% @monsters.each do |monster| %>
-  <li>
-    <%= monster.name %>
-    <%= monster.stamina %>
-  </li>
-<% end %>
+Adversaires
+<% if @monsters.nil? || @monsters.empty? %>
+  <% danger = false %>
+  Il n'y a plus de danger
+<% else %>
+  <% danger = true %>
+  <ol>
+  <% @monsters.each do |monster| %>
+    <li>
+      <%= monster.name %>
+      <%= monster.stamina %>
+    </li>
+  <% end %>
 </ol>
+<% end %>
 
-<% if @characters.empty? %>
+<% if @characters.nil? || @characters.empty? %>
+  <% someone = false %>
   Vous êtes tout seul sur ce coup !
 <% else %>
+  <% someone = true %>
   soutien possible
 
   <ol>
@@ -28,10 +36,16 @@ adversaires
 
 <h5>prochaine action ?</h5>
 
-<%= simple_form_for @place, :url => place_combat_path, :method => :get do |f| %>
-  <%= f.association :monsters, :collection => @monsters, as: :radio_buttons %>
-  <%= f.association :characters, :collection => @characters, as: :radio_buttons %>
-  <%= f.button :submit, "attaquez" %>
+<% if someone || danger %>
+  <%= simple_form_for @place, :url => place_combat_path, :method => :get do |f| %>
+    <% if danger %>
+      <%= f.association :monsters, :collection => @monsters, as: :radio_buttons %>
+    <% end %>
+    <% if someone %>
+      <%= f.association :characters, :collection => @characters, as: :radio_buttons %>
+    <% end %>
+    <%= f.button :submit, "attaquez" %>
+  <% end %>
 <% end %>
 
 <%= link_to "autre...", character_path(@character) %>
