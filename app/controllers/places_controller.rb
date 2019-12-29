@@ -18,7 +18,7 @@ class PlacesController < ApplicationController
   def combat
     @place = Place.find(params[:place_id])
     @monsters = Monster.where("place_id = ?", params[:place_id])
-    if params[:place][:monster_ids] != ""
+    unless params[:place][:monster_ids].nil? || params[:place][:monster_ids].empty?
       monster = Monster.find(params[:place][:monster_ids])
       character_att(@character, monster)
       combat_result(@character, monster)
@@ -28,31 +28,33 @@ class PlacesController < ApplicationController
         monster_att(@monsters, @character)
       end
     else
-      adv = Character.find(params[:place][:character_ids])
-      character_att(@character, adv)
-      combat_result(@character, adv)
-      if @result == "Il est mort"
-        return
-      else
-        adversaires = [adv]
-        monster_att(adversaires, @character)
+      unless params[:place][:character_ids].nil? || params[:place][:character_ids].empty?
+        adv = Character.find(params[:place][:character_ids])
+        character_att(@character, adv)
+        combat_result(@character, adv)
+        if @result == "Il est mort"
+          return
+        else
+          adversaires = [adv]
+          monster_att(adversaires, @character)
+        end
       end
     end
   end
 
   def character_att(character, monster)
-    degats = character.att - monster.def
+    degats = (character.att + rand(1..10)) - (monster.def + rand(1..10))
     monster.stamina = monster.stamina - degats if degats > 0
     monster.save!
-    @degats = "Vous infligez #{degats} dégats au #{monster.name}"
+    @degats = "Vous infligez #{degats} dégats sur #{monster.name}"
   end
 
   def monster_att(monsters, character)
-    puissance = 0
+    puissance = rand(1..10)
     monsters.each do |monster|
       puissance += monster.att
     end
-    degats = puissance - character.def
+    degats = puissance - (character.def + rand(1..10))
     character.stamina = character.stamina - degats if degats > 0
     character.save!
     @blessures = "Vous avez subit #{degats} points de blessures"
@@ -74,7 +76,7 @@ class PlacesController < ApplicationController
 
   def fuir
       @character.place = Place.find_by(name: @character.place.links.sample)
-      @character.stamina = @character.stamina / 2
+      @character.stamina -= @character.stamina / 3
       @character.save
       @monsters.each do |monster|
         MvntMonsterJob.perform_later(monster.id)
