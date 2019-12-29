@@ -16,7 +16,8 @@ Lieu:
       <% monsters = @character.place.creatures.select {|creature| creature.class == Monster } %>
       <% monsters.each do |monster| %>
         <li>
-          <%= monster.name %>
+          <button type="button" class="btn btn-danger" data-toggle="popover" title=<%= monster.name %>
+              data-content="Att: <%= monster.att %>, Def: <%= monster.def %>, Stamina: <%= monster.stamina %>"><%= monster.name %></button>
         </li>
       <% end %>
     </ul>
@@ -28,7 +29,10 @@ Lieu:
       <% characters.each do |character| %>
         <% unless character == @character %>
           <li>
-            <%= character.name %>
+            <button type="button" class="btn btn-info" data-toggle="popover" title=<%= character.name %>
+              data-content="<%= character.god.name %>, Att: <%= character.att %>
+                          , Def: <%= character.def %>
+                          , Stamina: <%= character.stamina %>"><%= character.name %></button>
           </li>
         <% end %>
       <% end %>
@@ -47,6 +51,6 @@ Lieu:
     <% end %>
   </ul>
 <% else %>
-  <%= link_to "attaquer", place_engage_path(@character.place) %>
   <%= link_to "fuir", place_fuir_path(@character.place) %>
 <% end %>
+<%= link_to "attaquer", place_engage_path(@character.place) %>

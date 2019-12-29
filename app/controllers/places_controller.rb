@@ -18,13 +18,25 @@ class PlacesController < ApplicationController
   def combat
     @place = Place.find(params[:place_id])
     @monsters = Monster.where("place_id = ?", params[:place_id])
-    monster = Monster.find(params[:place][:monster_ids])
-    character_att(@character, monster)
-    combat_result(@character, monster)
-    if @result == "Il est mort"
-      return
+    if params[:place][:monster_ids] != ""
+      monster = Monster.find(params[:place][:monster_ids])
+      character_att(@character, monster)
+      combat_result(@character, monster)
+      if @result == "Il est mort"
+        return
+      else
+        monster_att(@monsters, @character)
+      end
     else
-      monster_att(@monsters, @character)
+      adv = Character.find(params[:place][:character_ids])
+      character_att(@character, adv)
+      combat_result(@character, adv)
+      if @result == "Il est mort"
+        return
+      else
+        adversaires = [adv]
+        monster_att(adversaires, @character)
+      end
     end
   end
 
@@ -37,7 +49,7 @@ class PlacesController < ApplicationController
 
   def monster_att(monsters, character)
     puissance = 0
-    @monsters.each do |monster|
+    monsters.each do |monster|
       puissance += monster.att
     end
     degats = puissance - character.def
